@@ -1,17 +1,27 @@
-import type { HandlerEvent, HandlerContext } from "@netlify/functions";
+import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 import type { Config } from "@netlify/functions";
 
-export const handler = async (event: HandlerEvent, context: HandlerContext) => {
+export const handler: Handler = async (
+  event: HandlerEvent,
+  context: HandlerContext
+) => {
   const currentTime = new Date().toISOString();
-  console.log(`Scheduled function ran at ${currentTime}`);
+  console.log(`Function invoked at ${currentTime}`);
 
-  // You can perform any scheduled task here
-  // For this example, we'll just return a success message
+  if (event.body) {
+    const body = JSON.parse(event.body);
+    if (body.schedule) {
+      console.log("This was a scheduled invocation");
+      console.log("Schedule details:", body.schedule);
+    }
+  }
+
+  // Your scheduled task logic here
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: `Scheduled function executed successfully at ${currentTime}`,
+      message: `Function executed successfully at ${currentTime}`,
     }),
   };
 };
