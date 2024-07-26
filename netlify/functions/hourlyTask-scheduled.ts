@@ -1,7 +1,7 @@
-import { Schedule } from "@netlify/functions";
+import type { HandlerEvent, HandlerContext } from "@netlify/functions";
 import type { Config } from "@netlify/functions";
 
-export const handler: Schedule = async (event, context) => {
+export const handler = async (event: HandlerEvent, context: HandlerContext) => {
   const currentTime = new Date().toISOString();
   console.log(`Scheduled function ran at ${currentTime}`);
 
